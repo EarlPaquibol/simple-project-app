@@ -1,4 +1,3 @@
-import pool from "../db.js";
 import * as userController from "../controllers/userController.js";
 import { Router } from "express";
 import { asyncHandler } from "../utils/asyncHandler.js";
