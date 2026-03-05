@@ -33,7 +33,7 @@ export const updateUser = async (id: string, fields: UserType) => {
     i++;
   }
 
-  const qq = `UPDATE users SET ${queryBuilder.join(", ")} WHERE id = $${i} RETURNING *`;
+  const qq = `UPDATE users SET ${queryBuilder.join(", ")} WHERE id = $${id} RETURNING *`;
   values.push(id);
 
   const result = await pool.query(qq, values);
