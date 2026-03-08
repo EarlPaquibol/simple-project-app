@@ -23,3 +23,18 @@ export const deleteUser = async (req: Request, res: Response) => {
   const deletedUser = await userService.deleteUser(req.params.id as string);
   return res.status(200).json(deletedUser);
 };
+
+export const getUserTasks = async (req: Request, res: Response) => {
+  const userTasks = await userService.getUserTasks(
+    req.params.user_id as string,
+  );
+  return res.status(200).json(userTasks);
+};
+
+export const getUserProjects = async (req: Request, res: Response) => {
+  const userProjects = await userService.getUserProjects(
+    req.params.user_id as string,
+  );
+
+  return res.status(200).json(userProjects);
+};

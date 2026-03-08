@@ -22,3 +22,8 @@ export const deleteProject = (id: string) => {
   if (!id) throw new Error("Project must exist!");
   return projectRepo.deleteProject(id);
 };
+
+export const getProjectUsers = (project_id: string) => {
+  if (!project_id) throw new Error("Project must exist!");
+  return projectRepo.getProjectUsers(project_id);
+};

@@ -36,3 +36,23 @@ export const deleteProject = async (id: string) => {
   );
   return result.rows[0];
 };
+
+export const getProjectUsers = async (project_id: string) => {
+  const result = await pool.query(
+    `SELECT p.project, COALESCE(json_agg(json_build_object(
+    'userId', u.id,
+    'userName', u.name
+    )) FILTER (where u.id IS NOT NULL), '[]'::json) AS members 
+    FROM projects p
+    LEFT JOIN user_projects up
+    ON up.project_id = p.id
+    LEFT JOIN users u
+    ON u.id = up.user_id
+    WHERE p.id = $1
+    GROUP BY p.project
+    `,
+    [project_id],
+  );
+
+  return result.rows;
+};

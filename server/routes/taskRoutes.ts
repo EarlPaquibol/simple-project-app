@@ -9,4 +9,6 @@ router.post("/", asyncHandler(taskController.createTask));
 router.patch("/edit/:id", asyncHandler(taskController.updateTask));
 router.delete("/delete/:id", asyncHandler(taskController.deleteTask));
 
+router.get("/:task_id/users", asyncHandler(taskController.getTaskUsers));
+
 export default router;

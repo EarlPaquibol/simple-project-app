@@ -25,3 +25,10 @@ export const deleteProject = async (req: Request, res: Response) => {
   );
   return res.status(200).json(deletedProject);
 };
+
+export const getProjectUsers = async (req: Request, res: Response) => {
+  const result = await projectService.getProjectUsers(
+    req.params.project_id as string,
+  );
+  return res.status(200).json(result);
+};

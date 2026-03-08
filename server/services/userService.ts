@@ -28,3 +28,13 @@ export const deleteUser = async (id: string) => {
   if (!id) throw new Error("No id given");
   return userRepo.deleteUser(id);
 };
+
+export const getUserTasks = (user_id: string) => {
+  if (!user_id) throw new Error("No user_id given!");
+  return userRepo.getUserTasks(user_id);
+};
+
+export const getUserProjects = (user_id: string) => {
+  if (!user_id) throw new Error("No user_id given!");
+  return userRepo.getUserProjects(user_id);
+};

@@ -25,3 +25,9 @@ export const deleteTask = (id: string) => {
 
   return taskRepo.deleteTask(id);
 };
+
+export const getTaskUsers = (task_id: string) => {
+  if (!task_id) throw new Error("Task id required");
+
+  return taskRepo.getTaskUsers(task_id);
+};

@@ -23,3 +23,8 @@ export const deleteTask = async (req: Request, res: Response) => {
   const result = await taskService.deleteTask(req.params.id as string);
   return res.status(200).json({ result });
 };
+
+export const getTaskUsers = async (req: Request, res: Response) => {
+  const result = await taskService.getTaskUsers(req.params.task_id as string);
+  return res.status(200).json({ result });
+};

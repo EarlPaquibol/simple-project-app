@@ -49,3 +49,33 @@ export const deleteUser = async (id: string) => {
   );
   return result.rows[0];
 };
+
+//I want to get all that users tasks
+export const getUserTasks = async (user_id: string) => {
+  const userTasks = await pool.query(
+    "SELECT * FROM tasks AS t JOIN user_tasks AS ut ON t.id = ut.task_id WHERE ut.user_id = $1",
+    [user_id],
+  );
+
+  return userTasks.rows;
+};
+
+export const getUserProjects = async (user_id: string) => {
+  const userProjects = await pool.query(
+    `SELECT u.id, u.name, 
+    json_agg(json_build_object(
+      'id', p.id,
+      'project', p.project
+    )) as projects 
+    FROM users u 
+    JOIN user_projects ut 
+    ON ut.user_id = u.id
+    JOIN projects p 
+    ON ut.project_id = p.id
+    WHERE ut.user_id = $1
+    GROUP BY u.id, u.name`,
+    [user_id],
+  );
+
+  return userProjects.rows;
+};

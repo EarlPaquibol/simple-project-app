@@ -4,6 +4,7 @@ import userRoutes from "./routes/userRoutes.js";
 import projectRoutes from "./routes/projectRoutes.js";
 import taskRoutes from "./routes/taskRoutes.js";
 import userTasksRoutes from "./routes/userTasksRoutes.js";
+import userProjectsRoutes from "./routes/userProjectsRoutes.js";
 import { errorHandler } from "./middleware/errorHandler.js";
 
 const app = express();
@@ -22,7 +23,7 @@ app.use("/api/v1/users", userRoutes);
 app.use("/api/v1/projects", projectRoutes);
 app.use("/api/v1/tasks", taskRoutes);
 app.use("/api/v1/user-tasks", userTasksRoutes);
-// app.use("/api/v1/user-projects");
+app.use("/api/v1/user-projects", userProjectsRoutes);
 
 app.use(errorHandler);
 app.listen(3000, () => {

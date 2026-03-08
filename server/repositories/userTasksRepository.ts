@@ -1,5 +1,13 @@
 import pool from "../db.js";
 
+export const checkUserTask = async (user_id: string, task_id: string) => {
+  const existing = await pool.query(
+    "SELECT * FROM user_tasks WHERE user_id = $1 AND task_id = $2",
+    [user_id, task_id],
+  );
+  return existing.rows[0];
+};
+
 export const assignTask = async (fields: any) => {
   const columns = Object.keys(fields);
   const values = Object.values(fields);

@@ -46,3 +46,11 @@ export const deleteTask = async (id: string) => {
   );
   return deletedTask.rows[0];
 };
+
+export const getTaskUsers = async (task_id: string) => {
+  const result = await pool.query(
+    "SELECT u.* FROM users AS u JOIN user_tasks AS ut ON ut.user_id = u.id WHERE ut.task_id = $1",
+    [task_id],
+  );
+  return result.rows;
+};
