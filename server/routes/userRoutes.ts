@@ -12,4 +12,6 @@ router.delete("/deleteUser/:id", asyncHandler(userController.deleteUser));
 router.get("/:user_id/tasks", asyncHandler(userController.getUserTasks));
 router.get("/:user_id/projects", asyncHandler(userController.getUserProjects));
 
+router.post("/login", asyncHandler(userController.login));
+
 export default router;

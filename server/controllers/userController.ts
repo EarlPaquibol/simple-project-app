@@ -38,3 +38,10 @@ export const getUserProjects = async (req: Request, res: Response) => {
 
   return res.status(200).json(userProjects);
 };
+
+export const login = async (req: Request, res: Response) => {
+  const user = await userService.login(req.body);
+  return res
+    .status(200)
+    .json({ user: user.name, message: "Logged in successfully!" });
+};
