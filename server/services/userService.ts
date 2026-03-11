@@ -2,8 +2,14 @@ import * as userRepo from "../repositories/userRepository.js";
 import UserType from "../types/userType.js";
 import dotenv from "dotenv";
 import bcrypt from "bcrypt";
+import {
+  generateAccessToken,
+  generateRefreshToken,
+  verifyRefreshToken,
+} from "../utils/token.js";
 
 dotenv.config();
+
 export const getUsers = () => userRepo.getUsers();
 
 export const createUser = async ({ name, email, password }: UserType) => {
@@ -62,5 +68,21 @@ export const login = async (fields: { email: string; password: string }) => {
   const passwordMatch = await bcrypt.compare(password, existing.password);
   if (!passwordMatch) throw new Error("Wrong password!");
 
-  return existing;
+  const accessToken = generateAccessToken(existing.id);
+  const refreshToken = generateRefreshToken(existing.id);
+
+  return {
+    user: existing,
+    accessToken,
+    refreshToken,
+  };
+};
+
+export const refreshAccessToken = (refreshToken: string) => {
+  if (!refreshToken) throw new Error("Unauthorized!");
+
+  const payload = verifyRefreshToken(refreshToken);
+  if (!payload) throw new Error("Forbidden");
+
+  return generateAccessToken(payload.userId);
 };

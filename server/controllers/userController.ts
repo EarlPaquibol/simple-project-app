@@ -40,8 +40,26 @@ export const getUserProjects = async (req: Request, res: Response) => {
 };
 
 export const login = async (req: Request, res: Response) => {
-  const user = await userService.login(req.body);
-  return res
-    .status(200)
-    .json({ user: user.name, message: "Logged in successfully!" });
+  const { user, accessToken, refreshToken } = await userService.login(req.body);
+
+  res.cookie("refreshToken", refreshToken, {
+    httpOnly: true,
+    secure: true,
+    sameSite: "strict",
+    maxAge: 7 * 24 * 60 * 60 * 1000,
+  });
+
+  return res.status(200).json({
+    user,
+    accessToken,
+    refreshToken,
+    message: "Logged in successfully!",
+  });
+};
+
+export const refresh = async (req: Request, res: Response) => {
+  const accessToken = await userService.refreshAccessToken(
+    req.cookies.refreshToken,
+  );
+  return res.json({ accessToken });
 };

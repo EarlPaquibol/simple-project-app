@@ -6,9 +6,11 @@ import taskRoutes from "./routes/taskRoutes.js";
 import userTasksRoutes from "./routes/userTasksRoutes.js";
 import userProjectsRoutes from "./routes/userProjectsRoutes.js";
 import { errorHandler } from "./middleware/errorHandler.js";
+import cookieParser from "cookie-parser";
 
 const app = express();
 app.use(express.json());
+app.use(cookieParser());
 
 // app.use(
 //   cors({
