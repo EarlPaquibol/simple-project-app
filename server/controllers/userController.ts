@@ -50,9 +50,10 @@ export const login = async (req: Request, res: Response) => {
   });
 
   return res.status(200).json({
-    user,
+    userId: user.id,
+    name: user.name,
+    role: user.role,
     accessToken,
-    refreshToken,
     message: "Logged in successfully!",
   });
 };

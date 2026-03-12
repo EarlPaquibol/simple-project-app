@@ -1,11 +1,16 @@
 import * as userController from "../controllers/userController.js";
 import { Router } from "express";
 import { asyncHandler } from "../utils/asyncHandler.js";
-import { authenticate } from "../middleware/authMiddleware.js";
+import { authenticate, authorize } from "../middleware/authMiddleware.js";
 
 const router = Router();
 
-router.get("/", authenticate, asyncHandler(userController.getUsers));
+router.get(
+  "/",
+  authenticate,
+  authorize("admin"),
+  asyncHandler(userController.getUsers),
+);
 router.post("/", asyncHandler(userController.createUser));
 router.patch("/updateUser/:id", asyncHandler(userController.updateUser));
 router.delete("/deleteUser/:id", asyncHandler(userController.deleteUser));

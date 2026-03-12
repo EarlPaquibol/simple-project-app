@@ -15,14 +15,16 @@ if (!ACCESS_TOKEN_SECRET) {
   throw new Error("ACCESS_TOKEN_SECRET is not defined");
 }
 
-export const generateAccessToken = (userId: number) => {
-  return jwt.sign({ userId }, ACCESS_TOKEN_SECRET!, {
+export const generateAccessToken = (user: any) => {
+  const { id, name, role } = user;
+  return jwt.sign({ id, name, role }, ACCESS_TOKEN_SECRET!, {
     expiresIn: ACCESS_TOKEN_EXPIRY,
   });
 };
 
-export const generateRefreshToken = (userId: number) => {
-  return jwt.sign({ userId }, REFRESH_TOKEN_SECRET!, {
+export const generateRefreshToken = (user: any) => {
+  const { id, name, role } = user;
+  return jwt.sign({ id, name, role }, REFRESH_TOKEN_SECRET!, {
     expiresIn: REFRESH_TOKEN_EXPIRY,
   });
 };
@@ -37,9 +39,7 @@ export const verifyAccessToken = (accessToken: string) => {
 
 export const verifyRefreshToken = (refreshToken: string) => {
   try {
-    return jwt.verify(refreshToken, REFRESH_TOKEN_SECRET!) as {
-      userId: number;
-    };
+    return jwt.verify(refreshToken, REFRESH_TOKEN_SECRET!);
   } catch {
     return null;
   }

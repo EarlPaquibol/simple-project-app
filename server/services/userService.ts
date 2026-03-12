@@ -62,17 +62,17 @@ export const login = async (fields: { email: string; password: string }) => {
 
   if (!email || !password) throw new Error("Email and password is required!");
 
-  const existing = await userRepo.findByEmail(email);
-  if (!existing) throw new Error("User does not exist!");
+  const user = await userRepo.findByEmail(email);
+  if (!user) throw new Error("User does not exist!");
 
-  const passwordMatch = await bcrypt.compare(password, existing.password);
+  const passwordMatch = await bcrypt.compare(password, user.password);
   if (!passwordMatch) throw new Error("Wrong password!");
 
-  const accessToken = generateAccessToken(existing.id);
-  const refreshToken = generateRefreshToken(existing.id);
+  const accessToken = generateAccessToken(user);
+  const refreshToken = generateRefreshToken(user);
 
   return {
-    user: existing,
+    user: user,
     accessToken,
     refreshToken,
   };
@@ -84,5 +84,5 @@ export const refreshAccessToken = (refreshToken: string) => {
   const payload = verifyRefreshToken(refreshToken);
   if (!payload) throw new Error("Forbidden");
 
-  return generateAccessToken(payload.userId);
+  return generateAccessToken(payload);
 };
