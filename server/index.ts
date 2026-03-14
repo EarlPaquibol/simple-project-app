@@ -7,11 +7,13 @@ import userTasksRoutes from "./routes/userTasksRoutes.js";
 import userProjectsRoutes from "./routes/userProjectsRoutes.js";
 import { errorHandler } from "./middleware/errorHandler.js";
 import cookieParser from "cookie-parser";
+import { connectRedis } from "./redis.js";
 
 const app = express();
 app.use(express.json());
 app.use(cookieParser());
 
+await connectRedis();
 // app.use(
 //   cors({
 //     origin: "http://localhost:3001",

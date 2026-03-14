@@ -7,6 +7,8 @@ import {
   generateRefreshToken,
   verifyRefreshToken,
 } from "../utils/token.js";
+import { redisClient } from "../redis.js";
+import { loginCounter } from "../utils/loginCounter.js";
 
 dotenv.config();
 
@@ -71,8 +73,11 @@ export const login = async (fields: { email: string; password: string }) => {
   const accessToken = generateAccessToken(user);
   const refreshToken = generateRefreshToken(user);
 
+  const loginCount = await loginCounter(user.id);
+
   return {
     user: user,
+    loginCount: loginCount,
     accessToken,
     refreshToken,
   };

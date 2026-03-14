@@ -6,6 +6,7 @@ export interface AuthRequest extends Request {
     id: string;
     name: string;
     role: string;
+    permissions?: string[];
   };
 }
 
@@ -34,6 +35,38 @@ export const authorize =
 
     if (!allowedRoles.includes(req.user.role))
       return res.sendStatus(403).json({ message: "Unauthorized!" });
+
+    next();
+  };
+
+//example of JWT payload
+/*
+ {
+    userId: "1",
+    roles: "Admin",
+    permissions: [
+      "edit_post",
+      "delete_post"
+    ]
+ }
+*/
+export const authorizePermissionRoles =
+  (...allowedPermissions: string[]) =>
+  (req: AuthRequest, res: Response, next: NextFunction) => {
+    if (!req.user)
+      return res.sendStatus(401).json({ message: "You must log in!" });
+
+    const userPermissions = req.user.permissions;
+
+    if (!userPermissions || userPermissions.length === 0)
+      return res.sendStatus(403);
+
+    //example allowed allowedPermission = delete_post, edit_post
+    //userPermissions have = delete_post, edit_post, create_post
+    const hasPermissions = allowedPermissions.every((permission) =>
+      userPermissions.includes(permission),
+    );
+    if (!hasPermissions) return res.sendStatus(403);
 
     next();
   };
