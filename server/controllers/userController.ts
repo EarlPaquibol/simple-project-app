@@ -51,9 +51,11 @@ export const login = async (req: Request, res: Response) => {
   });
 
   return res.status(200).json({
-    userId: user.id,
-    name: user.name,
-    role: user.role,
+    user: {
+      id: user.id,
+      name: user.name,
+      role: user.role,
+    },
     loginCount,
     accessToken,
     message: "Logged in successfully!",

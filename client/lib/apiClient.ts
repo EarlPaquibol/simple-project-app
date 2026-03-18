@@ -1,7 +1,7 @@
 import axios from "axios";
 import { clearAccessToken, getAccessToken, setAccessToken } from "./tokenStore";
 
-const BASE_URL = "http://localhost:3000";
+const BASE_URL = "http://localhost:3000/api/v1";
 
 const api = axios.create({
   baseURL: BASE_URL,
@@ -47,3 +47,5 @@ api.interceptors.response.use(
     return Promise.reject(error);
   },
 );
+
+export default api;
